@@ -1,0 +1,74 @@
+<div class="post-details">
+
+  <%= form_with(model: post, local: true) do |form| %>
+    <% if post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+        <ul>
+          <% post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+    </div>
+
+    <div class="field">
+      <%= form.label :author %>
+      <%= form.text_field :author %>
+    </div>
+
+    <div class="field">
+      <%= form.label :content %>
+      <%= form.text_area :content %>
+    </div>
+
+    <div class="field">
+      <%= form.label :status %>
+      <%= form.select :status, ['draft', 'published'] %>
+    </div>
+
+    <div class="field">
+      <%= form.label :published_date %>
+      <%= form.datetime_local_field :published_date %>
+    </div>
+
+    <div class="field">
+      <% if post.image.attached? %>
+        <p>Current Image:</p>
+        <%= image_tag post.image, class: 'img-fluid' %>
+        <%= form.label :remove_image, class: 'checkbox' do %>
+          <%= form.check_box :remove_image %>
+          Remove Image
+        <% end %>
+      <% end %>
+      <%= form.label :image %>
+      <%= form.file_field :image %>
+    </div>
+
+    <div class="field">
+      <% if post.video.attached? %>
+        <p>Current Video:</p>
+        <%= video_tag url_for(post.video), controls: true, class: 'video-js vjs-default-skin vjs-big-play-centered' %>
+        <%= form.label :remove_video, class: 'checkbox' do %>
+          <%= form.check_box :remove_video %>
+          Remove Video
+        <% end %>
+      <% end %>
+      <%= form.label :video %>
+      <%= form.file_field :video %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+      <%= link_to 'Cancel', post_path(post), class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Back', posts_path %>
+</div>

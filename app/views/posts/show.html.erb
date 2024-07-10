@@ -1,0 +1,41 @@
+<div class="post-details">
+  <h1><%= @post.title %></h1>
+
+  <div class="post-meta">
+    <p><strong>Author:</strong> <%= @post.author %></p>
+    <p><strong>Published Date:</strong> <%= @post.published_date.strftime("%B %d, %Y") %></p>
+    <p><strong>Status:</strong> <%= @post.status %></p>
+  </div>
+
+  <% if @post.image.attached? %>
+    <div class="post-image">
+      <%= image_tag @post.image, class: 'img-fluid smaller-image' %>
+    </div>
+  <% end %>
+
+  <% if @post.video.attached? %>
+    <div class="post-video">
+      <%= video_tag url_for(@post.video), controls: true, class: 'video-js vjs-default-skin vjs-big-play-centered' %>
+    </div>
+  <% end %>
+
+  <% if user_signed_in? && current_user == @post.user %>
+    <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary' %>
+  <% end %>
+
+  <hr>
+
+  <h2>Comments</h2>
+
+  <div class="comments">
+    <% @post.comments.each do |comment| %>
+      <%= render partial: 'comments/comment', locals: { comment: comment } %>
+    <% end %>
+  </div>
+
+  <div class="comment-form">
+    <%= render partial: 'comments/form', locals: { post: @post } %>
+  </div>
+
+  <%= link_to 'Back', posts_path %>
+</div>

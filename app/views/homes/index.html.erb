@@ -1,0 +1,11 @@
+<div class="posts-index">
+  <% @posts.each do |post| %>
+    <div class="post">
+      <h2><%= link_to post.title, post %></h2>
+      <p><strong>Author:</strong> <%= post.author %></p>
+      <p><strong>Published Date:</strong> <%= post.published_date.strftime("%B %d, %Y") %></p>
+      <p><%= truncate(strip_tags(post.content), length: 200) %></p>
+      <p><%= link_to 'Read more', post %></p>
+    </div>
+  <% end %>
+</div>
